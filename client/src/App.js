@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Web3 from 'web3';
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from './config';
+import TodoList from './TodoList';
 
 import './App.css';
 
 function App() {
 
+    const [loading, setLoading] = useState(true);
     const [account, setAccount] = useState('');
     const [todoList, setTodoList] = useState({});
     const [taskCount, settaskCount] = useState(0);
@@ -38,9 +40,20 @@ function App() {
             settasks([...tasks, tasksLocal]);
         }
 
+        // blockchain data loaded
+        setLoading(false);
+
     };
 
-    console.log(tasks)
+    const createTask = async (content) => {
+        setLoading(true);
+
+        // calling the blockchain function to create task
+        await todoList.methods.createTask(content).send({ from: account });
+
+        setLoading(false);
+    };
+
 
     return (
         <div>
@@ -58,33 +71,14 @@ function App() {
             <div className="container-fluid">
                 <div className="row">
                     <main role="main" className="col-lg-12 d-flex justify-content-center">
-                        <div id="loader" className="text-center">
-                            <p className="text-center">Loading...</p>
-                        </div>
-                        <div id="content">
-
-                            <form>
-                                <input id="newTask" type="text" className="form-control" placeholder="Add task..." required />
-                                
-                                <button className="btn btn-outline-primary btn-sm" type="submit">Submit</button>
-                            </form>
-
-                            <ul id="taskList" className="list-unstyled">
-                                {
-                                    tasks.map((task, index) => (
-                                        <div className="taskTemplate" className="checkbox" key={index} >
-                                            <label>
-                                                <input type="checkbox" />
-                                                <span className="content">{task.content}</span>
-                                            </label>
-                                        </div>
-                                    ))
-                                }
-                            </ul>
-
-                            <ul id="completedTaskList" className="list-unstyled">
-                            </ul>
-                        </div>
+                        {loading ? 
+                            <div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
+                            : 
+                            <TodoList
+                                tasks={tasks}
+                                createTask={createTask}
+                            />
+                        }
                     </main>
                 </div>
             </div>
