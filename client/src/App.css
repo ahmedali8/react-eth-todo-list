@@ -3,7 +3,7 @@ main {
 }
 
 form {
-    width: 350px;
+    width: 500px;
     margin-bottom: 10px;
 }
 
@@ -24,5 +24,9 @@ ul {
 @media (max-width: 720px) {
     main {
         margin-top: 120px;
+    }
+
+    form {
+        width: 350px;
     }
 }
