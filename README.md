@@ -1,6 +1,6 @@
 # TodoList React DApp
 
-### [Live Site](react-todolist-daap.surge.sh)
+### [Live Site](http://react-todolist-daap.surge.sh)
 
-react-todolist-daap.surge.sh
+http://react-todolist-daap.surge.sh
 
